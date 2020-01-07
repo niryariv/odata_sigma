@@ -1,51 +1,4 @@
 
-// why isn't this part of remove_node? because we actually want to keep the original node. 
-// remove_node is really just a helper
-function __remove_children_nodes(node) {
-    var children = nodes.filter(function (n) { return n.parent == node.id });
-    return children.length == 0 ? false : children.forEach(function (n) { remove_children_nodes(n); remove_node(n) });
-}
-
-function __remove_node(node) {
-    links = _.reject(links, function (l) { return (l.source == node || l.target == node) });
-    nodes = _.reject(nodes, function (n) { return (n == node || n.parent == node) })
-}
-
-function __toggle_node(node) {
-    children = _.where(nodes, { parent: node.id });
-    return children.length > 0 ? remove_children_nodes(node) : load_nodes_under(node.id);
-}
-
-function __node_exists(node) {
-    return (_.findWhere(nodes, { id: node.id }) || false);
-}
-
-function __add_node(new_node, parent = false) {
-    exists = node_exists(new_node);
-    if (exists) return exists;
-
-    i = nodes.push(new_node);
-    if (parent) links.push({ source: parent.id, target: new_node.id });
-
-    return nodes[i - 1];
-}
-
-function __redraw() {
-    nodes.forEach(function(n){
-        s.graph.addNode({
-            id: n.name,
-            label: n.display_name,
-            x: Math.random(),
-            y: Math.random(),
-            type: 'circle',
-            borderColor: '#000',
-            size: 2,
-            color: '#f00'
-        })
-    })
-}
-
-
 function api_url(param) {
     return "https://www.odata.org.il/group/entities/api?name=" + param;
 }
@@ -135,14 +88,11 @@ s.bind("clickNode", function (n) {
         load_nodes_under(n.data.node.id) 
 });
 
-
-// Configure the algorithm
 var listener = s.configNoverlap({
     nodes : s.graph.nodes()
 });
 
 var dragListener = new sigma.plugins.dragNodes(s, s.renderers[0]);
 
-node_id = window.location.search.substring(1) || "mof";
+var node_id = window.location.search.substring(1) || "mof";
 load_nodes_under(node_id);
-
