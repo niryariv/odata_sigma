@@ -83,7 +83,7 @@ function load_nodes_under(node_id) {
                 type: 'circle',
                 borderColor: colors.border,
                 size: 2,
-                color: colors.full_node,
+                color: main_node.name == src_node ? colors.lit_node : colors.full_node,
                 has_groups: main_node.num_new_related_groups
             })
         }
