@@ -140,7 +140,7 @@ s.settings('scalingMode', 'outside');
 
 s.bind("clickNode", function (n) { 
     console.log(n);
-    if (n.data.node.has_groups > 0)
+    if (n.data.node.has_groups > 0 && full_screen)
         load_nodes_under(n.data.node.id) 
 });
 
@@ -150,6 +150,14 @@ var listener = s.configNoverlap({
 
 var dragListener = new sigma.plugins.dragNodes(s, s.renderers[0]);
 
-var src_node = window.location.search.substring(1);
+url_params = window.location.search.substring(1).split('&');
+
+
+var src_node = url_params[0];
+var full_screen = (url_params[1] == 'fullscreen') || false;
+
+if (!full_screen){
+    document.querySelector('#fullscreen').innerHTML = '<a href="?'+src_node+'&fullscreen" target="_blank">מסך מלא</a>';
+}
 
 load_nodes_under(src_node);
