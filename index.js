@@ -79,8 +79,8 @@ function load_nodes_under(node_id) {
             s.graph.addNode({
                 id: main_node.name,
                 label: main_node.display_name,
-                x: Math.random(),
-                y: Math.random(),
+                x: 0, //Math.random(), <-- NOTE: if this works..
+                y: 0, //Math.random(), .. remove center_on_node / focus_node
                 type: 'circle',
                 borderColor: colors.border,
                 size: 2,
@@ -111,7 +111,7 @@ function load_nodes_under(node_id) {
         });
 
         redraw();
-        center_on_node(main_node.name);
+        // center_on_node(main_node.name); 
         highlight_path(src_node, main_node.name);
     });
 }
