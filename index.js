@@ -47,7 +47,7 @@ function highlight_path(src,dest){
 
     // first clear all highlit paths
     _.each(s.graph.edges(), function (e) { e.color = colors.edge });
-    _.each(s.graph.nodes(), function (e) { e.color = colors.full_node });
+    _.each(s.graph.nodes(), function (n) { n.color = n.has_groups ? colors.full_node : colors.hollow_node });
 
     for (var i = 0; i < nodes.length; i++) {
         var n = _.findIndex(s.graph.nodes(), {
@@ -100,7 +100,7 @@ function load_nodes_under(node_id) {
                     borderColor: colors.border,
                     size: n.num_new_related_groups > 0 ? 2 : 1,
                     color: n.num_new_related_groups > 0 ? colors.full_node : colors.hollow_node,
-                    has_groups: n.num_new_related_groups
+                    has_groups: n.num_new_related_groups > 0
                 }).addEdge({
                     id: main_node.name + '-' + n.name,
                     source: main_node.name,
@@ -121,7 +121,7 @@ var colors = {
     border: '#333',
     edge  : '#ccc',
     hollow_node : '#eee',
-    full_node   : '#ccc',
+    full_node   : '#bbb',
     lit_node    : '#c54',
     lit_edge    : '#c54'
 }
