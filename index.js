@@ -101,13 +101,15 @@ function load_nodes_under(node_id) {
                     size: n.num_new_related_groups > 0 ? 2 : 1,
                     color: n.num_new_related_groups > 0 ? colors.full_node : colors.hollow_node,
                     has_groups: n.num_new_related_groups > 0
-                }).addEdge({
+                });
+            }
+
+            s.graph.addEdge({
                     id: main_node.name + '-' + n.name,
                     source: main_node.name,
                     target: n.name,
                     color: colors.edge
-                })
-            }
+            })
         });
 
         redraw();
