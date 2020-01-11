@@ -27,6 +27,7 @@ function focusNode(camera, node) {
 }
 
 function center_on_node(node_id){
+    console.log("CENTER ON:", node_id)
     center_node = node_id;
 
     var n = _.findWhere(s.graph.nodes(), { id: node_id });    
@@ -136,7 +137,8 @@ var s = new sigma({
 var cam = s.cameras[0];
 
 s.settings('drawLabels', true);
-s.settings('scalingMode', 'outside');
+s.settings('scalingMode', 'inside');
+s.settings('sideMargin', 1);
 
 s.bind("clickNode", function (n) { 
     console.log(n);
