@@ -12,35 +12,6 @@ function redraw(){
     s.refresh();
 }
 
-function focusNode(camera, node) {
-    sigma.misc.animation.camera(
-        camera,
-        {
-            x: node['read_cammain:x'],
-            y: node['read_cammain:y'],
-            ratio: 1
-        },
-        {
-            duration: 150
-        }
-    );
-}
-
-function center_on_node(node_id){
-    console.log("CENTER ON:", node_id)
-    center_node = node_id;
-
-    var n = _.findWhere(s.graph.nodes(), { id: node_id });    
-    // focusNode(cam, n);
-    var cs = cam.graphPosition(n.x, n.y);
-    // console.log("CENTER:", { x: cs.x, y: cs.y })
-    cam.goTo({x:cs.x, y:cs.y});
-
-    // s.dispatchEvent('doubleClickNode', n);
-    // s.refresh()
-    // redraw();
-}
-
 function highlight_path(src,dest){
     nodes = s.graph.astar(src, dest);
     if (typeof nodes == "undefined") return false;
@@ -69,7 +40,6 @@ function highlight_path(src,dest){
 
 
 function load_nodes_under(node_id) {
-    console.log("load_nodes_under:", node_id);
     $.getJSON(api_url(node_id), function (odata) {
         var main_node = odata.group;
         var nodes = odata.related_groups;
@@ -79,8 +49,8 @@ function load_nodes_under(node_id) {
             s.graph.addNode({
                 id: main_node.name,
                 label: main_node.display_name,
-                x: 0, //Math.random(), <-- NOTE: if this works..
-                y: 0, //Math.random(), .. remove center_on_node / focus_node
+                x: 0, 
+                y: 0, 
                 type: 'circle',
                 borderColor: colors.border,
                 size: 2,
@@ -113,7 +83,6 @@ function load_nodes_under(node_id) {
         });
 
         redraw();
-        // center_on_node(main_node.name); 
         highlight_path(src_node, main_node.name);
     });
 }
@@ -143,7 +112,6 @@ s.settings('scalingMode', 'inside');
 s.settings('sideMargin', 1);
 
 s.bind("clickNode", function (n) { 
-    console.log(n);
     if (n.data.node.has_groups > 0 && full_screen)
         load_nodes_under(n.data.node.id) 
 });
@@ -158,7 +126,8 @@ url_params = window.location.search.substring(1).split('&');
 
 
 var src_node = url_params[0];
-var full_screen = (url_params[1] == 'fullscreen') || false;
+// for now, allow only full screen
+var full_screen = true; //(url_params[1] == 'fullscreen') || false;
 
 if (!full_screen){
     document.querySelector('#fullscreen').innerHTML = '<a href="?'+src_node+'&fullscreen" target="_blank">מסך מלא</a>';
